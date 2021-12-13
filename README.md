@@ -12,10 +12,10 @@ Available as github page on [task tracker website][website]
 Enjoy
 
 
-[website]: https://easa.github.io/routine/
+[website]: https://easa.github.io/task-tracker/
 [image]: https://raw.githubusercontent.com/easa/routine/master/mockPage.svg
-[testBadge]: https://github.com/easa/task-traker/workflows/test/badge.svg
-[pageBadge]: https://github.com/easa/task-traker/workflows/page/badge.svg
+[testBadge]: https://github.com/easa/task-tracker/workflows/test/badge.svg
+[pageBadge]: https://github.com/easa/task-tracker/workflows/page/badge.svg
 
 
 
