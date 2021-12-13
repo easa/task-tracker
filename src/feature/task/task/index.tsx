@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import {
-  Button, Grid, Typography,
-} from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
+import { Grid, Typography } from '@mui/material';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadCurrent, selectCurrentTask } from '../task.slice';
 import TaskItem from './task.item';
@@ -18,9 +16,6 @@ function Task() {
   const task = useSelector(selectCurrentTask);
   return (
     <Grid container columns={{ xs: 4, md: 12 }}>
-      <Grid item xs={2}>
-        <Button component={Link} to="/tasks">back</Button>
-      </Grid>
       <Grid item xs={2}>
         <Typography>task view</Typography>
       </Grid>

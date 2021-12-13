@@ -1,17 +1,28 @@
-import React, { cloneElement, useRef, useState } from 'react';
+import React, {
+  cloneElement, useEffect, useRef, useState,
+} from 'react';
 import type { KeyboardEvent } from 'react';
 import { Box } from '@mui/material';
 import Tags from './Tags';
 
 function InputTags({
-  component, insert, remove,
+  component, initiate, insert, remove,
 }: {
   component: JSX.Element;
+  initiate: (callback: (tags: string[]) => void) => void;
   insert: (index: number, text: string) => void;
   remove: (index: number) => void;
 }) {
   const [tags, setTags] = useState<string[]>([]);
   const tagRef = useRef<HTMLInputElement>();
+
+  useEffect(() => {
+    initiate((initialTags) => {
+      if (initialTags) {
+        setTags(initialTags);
+      }
+    });
+  }, [initiate]);
 
   const handleDelete = (text: string) => () => {
     const idx = tags.findIndex((val) => val === text);

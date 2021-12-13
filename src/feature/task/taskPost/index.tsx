@@ -1,27 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Typography } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectCurrentTask } from '../task.slice';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addTask, editTask, loadCurrent, selectCurrentTask,
+} from '../task.slice';
 import { Task } from '../task.type';
 import TaskForm from './TaskForm';
 
 function TaskPost() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { taskId } = useParams();
   const task = useSelector(selectCurrentTask);
   const [formState, setFormState] = useState<Task>();
+
+  useEffect(() => {
+    if (taskId) {
+      dispatch(loadCurrent(taskId));
+    }
+  }, [taskId]);
+
   useEffect(() => {
     setFormState(task);
-  }, [taskId]);
+  }, [taskId, task]);
+
   const submitData = (data: Task) => {
-    alert(JSON.stringify(data));
+    if (data.id) {
+      dispatch(editTask(data));
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      data.id = String(Math.random());
+      dispatch(addTask(data));
+    }
+    navigate('../');
   };
   return (
     <Grid container columns={{ xs: 4, md: 12 }}>
-      <Grid item xs={2}>
-        <Link to="/">back</Link>
-      </Grid>
-
       <Grid item xs={2}>
         {taskId
           && (

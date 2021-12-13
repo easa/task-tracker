@@ -1,6 +1,7 @@
 import React from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import Home from './feature/home';
+import TaskLayout from './feature/task/task.layout';
 import Tasks from './feature/task/tasks';
 import Task from './feature/task/task';
 import TaskPost from './feature/task/taskPost';
@@ -14,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/">
           <Route index element={<Home />} />
-          <Route path="tasks">
+          <Route path="tasks" element={<TaskLayout />}>
             <Route index element={<Tasks />} />
             <Route path=":taskId" element={<Task />} />
             <Route path="create" element={<TaskPost />} />

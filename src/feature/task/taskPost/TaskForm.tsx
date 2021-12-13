@@ -1,58 +1,40 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   Button, Typography, Box, TextField, Radio, RadioGroup, FormControl, FormControlLabel, Grid,
 } from '@mui/material';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
-import * as yup from 'yup';
 import { Task } from '../task.type';
 import InputTags from './tags';
+import { validationSchema, EMPTY_TASK, priorities } from './taskForm.validations';
 
 type Props = { task?: Task, onSubmit: (data: Task) => void };
 
-const EMPTY_TASK: Task = {
-  id: '',
-  title: '',
-  description: '',
-  priority: 'low',
-  tags: [],
-};
-
-const priorities = ['low', 'mediate', 'high'] as Task['priority'][];
-
-const validationSchema = yup.object({
-  title: yup
-    .string()
-    .trim()
-    .min(1)
-    .required('Email is required'),
-  description: yup
-    .string()
-    .min(8, 'description should be of minimum 8 characters length'),
-  tags: yup
-    .array()
-    .of(yup.string())
-    .nullable(),
-  priority: yup
-    .mixed()
-    .oneOf(priorities)
-    .defined(),
-});
-
 function TaskForm({ task, onSubmit }: Props) {
-  const initialValues = useMemo(() => task || EMPTY_TASK, [task]);
   const formik = useFormik<Task>({
-    enableReinitialize: true,
-    initialValues,
+    initialValues: EMPTY_TASK,
     validationSchema,
     onSubmit,
   });
+
+  useEffect(() => {
+    if (task) {
+      Object.keys(task).forEach((i) => {
+        const key = i as keyof Task;
+        formik.setFieldValue(i, task[key]);
+      });
+    }
+  }, [task]);
+
+  const setInitialTags = useCallback((callback) => {
+    callback(task?.tags);
+  }, [task]);
 
   return (
     <FormikProvider value={formik}>
       <Box
         component="form"
         onSubmit={formik.handleSubmit}
-        // style={{ maxWidth: '500px' }}
+        style={{ maxWidth: '500px' }}
         noValidate
         autoComplete="off"
       >
@@ -62,9 +44,6 @@ function TaskForm({ task, onSubmit }: Props) {
           direction="column"
           spacing={2}
         >
-          <Grid item>
-            {task && <Typography>{task.id}</Typography>}
-          </Grid>
           <Grid item>
             <FormControl>
               <TextField
@@ -93,7 +72,6 @@ function TaskForm({ task, onSubmit }: Props) {
           </Grid>
           <Grid item>
             <FormControl>
-
               <FieldArray
                 name="tags"
                 validateOnChange={false}
@@ -106,12 +84,12 @@ function TaskForm({ task, onSubmit }: Props) {
                         helperText={formik.touched.tags && formik.errors.tags}
                       />
                     )}
+                    initiate={setInitialTags}
                     insert={arrayHelpers.insert}
                     remove={arrayHelpers.remove}
                   />
                 )}
               />
-
             </FormControl>
           </Grid>
           <Grid item>
@@ -145,7 +123,7 @@ function TaskForm({ task, onSubmit }: Props) {
           </Grid>
           <Grid item>
             <Button color="primary" variant="contained" fullWidth type="submit">
-              add
+              {task?.id ? 'edit' : 'add'}
             </Button>
           </Grid>
         </Grid>

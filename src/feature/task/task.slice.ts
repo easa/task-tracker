@@ -33,7 +33,7 @@ export const taskSlice = createSlice({
     removeTask: (state, action: PayloadAction<string>) => {
       state.tasks = state.tasks.filter((i) => i.id !== action.payload);
     },
-    loadCurrent: (state, action: PayloadAction<string>) => {
+    loadCurrent: (state, action: PayloadAction<string | undefined>) => {
       state.currentTaskId = action.payload;
     },
     loadSearchedItems: (state, action: PayloadAction<string>) => {
@@ -43,7 +43,7 @@ export const taskSlice = createSlice({
 });
 
 export const {
-  initTasks, addTask, removeTask, loadCurrent, loadSearchedItems,
+  initTasks, addTask, editTask, removeTask, loadCurrent, loadSearchedItems,
 } = taskSlice.actions;
 
 const selectSelf = (state: { task: PartialState }) => state;
