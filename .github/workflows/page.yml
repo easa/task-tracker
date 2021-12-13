@@ -1,9 +1,9 @@
 
 name: page
 on:
-  create:
-    tags:
-      - '*'
+  push:
+    branches:
+      - master
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
