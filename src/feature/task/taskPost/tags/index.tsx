@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { cloneElement, useRef, useState } from 'react';
+import type { KeyboardEvent } from 'react';
 import { Box } from '@mui/material';
 import Tags from './Tags';
 
@@ -18,8 +19,8 @@ function InputTags({
     setTags(newTags);
     remove(idx);
   };
-  const handleOnSubmit = () => (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.keyCode === 13) {
+  const handleOnSubmit = () => (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.code === 'Enter') {
       e.stopPropagation();
       e.preventDefault();
       if (tagRef?.current) {
@@ -38,7 +39,7 @@ function InputTags({
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
-      {React.cloneElement(component, {
+      {cloneElement(component, {
         autoComplete: 'off',
         onKeyDown: handleOnSubmit(),
         placeholder: tags.length < 5 ? 'Enter tags' : '',
