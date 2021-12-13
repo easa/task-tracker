@@ -1,4 +1,33 @@
-# Getting Started with Create React App
+# Task Tracker
+
+Simple task tracker / note pad. it's an interview project! 
+![test][testBadge]
+![page][pageBadge]
+
+## Website
+
+Available as github page on [task tracker website][website]
+
+## Policies
+Enjoy
+
+
+[website]: https://easa.github.io/routine/
+[image]: https://raw.githubusercontent.com/easa/routine/master/mockPage.svg
+[testBadge]: https://github.com/easa/task-traker/workflows/test/badge.svg
+[pageBadge]: https://github.com/easa/task-traker/workflows/page/badge.svg
+
+
+
+## packages: 
+- react
+- redux-toolkit
+- mui
+- formik
+
+
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
