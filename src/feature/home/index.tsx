@@ -1,15 +1,17 @@
 import React from 'react';
 import { Button, Container, Grid } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loadCurrent } from 'feature/task/task.slice';
+import TaskPost from 'feature/task/taskPost';
+import { Modal, useModal } from './modal';
 
 function Home() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isOpen, handleOpen, handleClose } = useModal();
   const handleCreateTask = () => {
     dispatch(loadCurrent());
-    navigate('/tasks/create');
+    handleOpen();
   };
   return (
     <Container maxWidth="sm">
@@ -19,6 +21,9 @@ function Home() {
           <Button component={Link} to="/tasks">tasks list</Button>
         </Grid>
       </Grid>
+      <Modal open={isOpen} onClose={handleClose}>
+        <TaskPost />
+      </Modal>
     </Container>
   );
 }
